@@ -7,6 +7,8 @@
 <title>{% block title %} {% endblock %}</title>
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+{% block head %}
+{% endblock %}
 </head>
 
 <body>
@@ -23,6 +25,8 @@
 
 {% endblock %}
 </body>
+
 </html>
+
 {% block scripts %}
 {% endblock %}

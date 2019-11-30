@@ -1,32 +1,31 @@
 {% extends "main/layout.html" %}
+{% load static %}
 {% load staticfiles %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% block title %} Map {% endblock %}
+{% block head %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
-</head>
+{% endblock %}
 
 {% block content %}
 <div onload="loaded()" id='map'></div>
 {% endblock %}
 
 {% block scripts %}
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
 <script src="{% static 'js/mapSetup.js' %}"></script>
 <script src="{% static 'js/htmlgeoloc.js' %}"></script>
 
 <script>
-
+console.log("script loaded");
 var currentLocation;
 var map;
 
-function loaded() {
 
+function loaded() {
     var locationPromise = getLocation();
     console.log("hello world");
     locationPromise
@@ -39,6 +38,9 @@ function mainLoop() {
         //map.setZoom(10);
     }, 100);
 }
+
+window.onload = loaded();
+
 
 </script>
 {% endblock %}

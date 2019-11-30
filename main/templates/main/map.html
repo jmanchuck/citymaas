@@ -1,0 +1,44 @@
+{% extends "main/layout.html" %}
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
+</head>
+
+{% block content %}
+<div onload="loaded()" id='map'></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/mapSetup.js' %}"></script>
+<script src="{% static 'js/htmlgeoloc.js' %}"></script>
+
+<script>
+
+var currentLocation;
+var map;
+
+function loaded() {
+
+    var locationPromise = getLocation();
+    console.log("hello world");
+    locationPromise
+      .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})
+      .catch(function(err) { console.log(err); });
+}
+
+function mainLoop() {
+    var interval = setInterval(() => {
+        //map.setZoom(10);
+    }, 100);
+}
+
+</script>
+{% endblock %}

@@ -37,14 +37,10 @@ daysDict = {
 
 
 def squareFinder(loc, radius):
-    square_corners = ""
-    longitude, latitude = loc[0], loc[1]
+    longitude, latitude = float(loc[0]), float(loc[1])
     d_vertical = (radius/1e3)/69
     d_horizontal = d_vertical / cos(d_vertical)
-    square_corners += str(longitude - d_horizontal) + ", " + str(latitude - d_vertical) + \
-        ", " + str(longitude + d_horizontal) + ", " + str(latitude + d_vertical)
-
-    return square_corners
+    return "{0}, {1}, {2}, {3}".format(longitude - d_horizontal, latitude - d_vertical, longitude + d_horizontal, latitude + d_vertical)
 
 
 def distanceFinder(loc1, loc2):

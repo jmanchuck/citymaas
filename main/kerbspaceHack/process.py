@@ -16,24 +16,21 @@ ocp_apim_subscription_key = 'c105fb930d5b43b09d8da802326651e9'  # str |
 viewport = '51.514784, -0.133652, 51.530104, -0.117755'
 
 # bedford square
-location = "51.519781, -0.129711"
-
+location = [51.519781, -0.129711]
 # in m
 radius = 100
-
-daysDict = dict(enumerate(calendar.day_name))
+day = 'Tuesday'
 
 accepted_parking = []
 kerbLoc = []
 disability = []
+daysDict = dict(enumerate(calendar.day_name))
+
 
 def squareFinder(loc, radius):
-    # arguments:
-    #   loc (string): 'lat, long'
     square_corners = ""
-    latitude, longitude = loc.split(',')
-    latitude, longitude = float(latitude), float(longitude)
-    d_vertical = sin((radius/1e3)/69)
+    longitude, latitude = loc[0], loc[1]
+    d_vertical = (radius/1e3)/69
     d_horizontal = d_vertical / cos(d_vertical)
     square_corners += str(longitude - d_horizontal) + ", " + str(latitude - d_vertical) + \
         ", " + str(longitude + d_horizontal) + ", " + str(latitude + d_vertical)
@@ -52,10 +49,6 @@ def distanceFinder(loc1, loc2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distance = R * c * 1e3
     return distance
-
-# square_corners = squareFinder(location, 100).split(',')
-# print(square_corners)
-# loc1, loc2 = square_corners[0] + ',' + square_corners[1], square_corners[2] + ',' + square_corners[3]
 
 
 def kerbSize(coordList):
@@ -79,6 +72,7 @@ def kerbSize(coordList):
         kerbspaces += distance / 5
 
     return int(kerbspaces)
+
 
 def kerbCenter(coordList):
     n = len(coordList)

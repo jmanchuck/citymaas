@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
+</head>
+<body onload="loaded()">
+            <div id="top"></div>
+            <div id="top-menu">
+                    <div class="top-menu-item">
+                        <a href="index.html">about</a>
+                    </div>
+                    
+                    <div class="top-menu-item">map</div>
+                    
+                    <div class="top-menu-item">contact</div>
+                </div>
+    <div id='map'></div>
+    
+</body>
+<script src="js/mapSetup.js"></script>
+<script src="js/htmlgeoloc.js"></script>
+
+<script>
+
+var currentLocation;
+var map;
+
+function loaded() {
+
+    var locationPromise = getLocation();
+    locationPromise
+      .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})
+      .catch(function(err) { console.log("No location"); });
+}
+
+function mainLoop() {
+    var interval = setInterval(() => {
+        //map.setZoom(10);
+    }, 100);
+}
+
+</script>
+
+</html>

@@ -1,7 +1,6 @@
-{% load static %}
+{% extends "main/layout.html" %}
 {% load staticfiles %}
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,20 +11,12 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
 </head>
-<body onload="loaded()">
-            <div id="top"></div>
-            <div id="top-menu">
-                    <div class="top-menu-item">
-                        <a href="index.html">about</a>
-                    </div>
 
-                    <div class="top-menu-item">map</div>
+{% block content %}
+<div onload="loaded()" id='map'></div>
+{% endblock %}
 
-                    <div class="top-menu-item">contact</div>
-                </div>
-    <div id='map'></div>
-
-</body>
+{% block scripts %}
 <script src="{% static 'js/mapSetup.js' %}"></script>
 <script src="{% static 'js/htmlgeoloc.js' %}"></script>
 
@@ -37,9 +28,10 @@ var map;
 function loaded() {
 
     var locationPromise = getLocation();
+    console.log("hello world");
     locationPromise
       .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})
-      .catch(function(err) { console.log("No location"); });
+      .catch(function(err) { console.log(err); });
 }
 
 function mainLoop() {
@@ -49,5 +41,4 @@ function mainLoop() {
 }
 
 </script>
-
-</html>
+{% endblock %}

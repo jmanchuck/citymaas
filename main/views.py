@@ -23,4 +23,12 @@ def map(request):
     elif request.method == "POST":
         return render(request, 'main/map.html')
 
+def about(request):
+    if request.method == "GET":
+        return render(request, 'main/about.html')
+
+def contact(request):
+    if request.method == "GET":
+        return render(request, 'main/contact.html')
+
 # print(squareFinder("51.519781, -0.129711", 100))

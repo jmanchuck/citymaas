@@ -25,3 +25,5 @@ def destination(request):
 
     elif request.method == "POST":
         return
+
+print(squareFinder("51.519781, -0.129711", 100))

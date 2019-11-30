@@ -222,7 +222,7 @@ python-dateutil==2.8.0
 PyTweening==1.0.3
 pytz==2019.3
 PyYAML==5.1.2
-requests==2.18.4
+requests==2.20.0
 requests-oauthlib==1.2.0
 screeninfo==0.4.1
 six==1.12.0

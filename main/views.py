@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from urllib.parse import urlencode
-from kerbspaceHack.process import squareFinder
+# from kerbspaceHack.process import squareFinder
 
 # Create your views here.
 print
@@ -26,4 +26,4 @@ def destination(request):
     elif request.method == "POST":
         return
 
-print(squareFinder("51.519781, -0.129711", 100))
+# print(squareFinder("51.519781, -0.129711", 100))

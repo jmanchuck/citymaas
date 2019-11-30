@@ -6,7 +6,7 @@ from pprint import pprint
 import pandas as pd
 from math import sin, cos, sqrt, atan2, radians
 import json
-import calendar
+import datetime
 
 
 # create an instance of the API class
@@ -19,12 +19,21 @@ viewport = '51.514784, -0.133652, 51.530104, -0.117755'
 location = [51.519781, -0.129711]
 # in m
 radius = 100
-day = 'Tuesday'
+day = datetime.datetime.today().weekday()
+time = '1000'
 
 accepted_parking = []
 kerbLoc = []
 disability = []
-daysDict = dict(enumerate(calendar.day_name))
+daysDict = {
+    0: 'mo',
+    1: 'tu',
+    2: 'we',
+    3: 'th',
+    4: 'fri',
+    5: 'sa',
+    6: 'su'
+}
 
 
 def squareFinder(loc, radius):
@@ -99,8 +108,16 @@ for i in range(0, len(api_response.features)):
     kerb = api_response.features[i]
     regulations = kerb.properties['regulations']
     coord = kerb.geometry.coordinates
+
     for j in range(0, len(regulations)):
-        if regulations[j]['rule']['payment']:
+        avaliable = False
+        timeSpans = regulations[j]['timeSpans'][0]
+        daysOfWeek = timeSpans['daysOfWeek']['days']
+        for dayString in daysOfWeek:
+            if dayString == daysDict[day]:
+                print(dayString)
+        # WILL HAVE DUPLICATES
+        if regulations[j]['rule']['payment'] and regulations[j]['rule']['activity'] == 'parking':
             if j == 0:
                 accepted_parking.append(kerb)
                 kerbLoc.append(kerbCenter(coord))

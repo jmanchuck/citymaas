@@ -5,9 +5,10 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from urllib.parse import urlencode
-# import kerbspaceHack.process as process
+from kerbspaceHack.process import squareFinder
 
 # Create your views here.
+print
 
 def main(request):
     if request.method == "GET":
@@ -15,7 +16,7 @@ def main(request):
 
     elif request.method == "POST":
         # do back end here
-        
+
         pass
 
 def destination(request):

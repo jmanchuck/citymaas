@@ -27,10 +27,6 @@ accepted_parking = []
 kerbLoc = []
 disability = []
 
-print(daysDict)
-exit()
-
-
 def squareFinder(loc, radius):
     # arguments:
     #   loc (string): 'lat, long'

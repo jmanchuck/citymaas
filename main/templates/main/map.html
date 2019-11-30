@@ -1,3 +1,6 @@
+{% load static %}
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
 </head>
@@ -15,16 +18,16 @@
                     <div class="top-menu-item">
                         <a href="index.html">about</a>
                     </div>
-                    
+
                     <div class="top-menu-item">map</div>
-                    
+
                     <div class="top-menu-item">contact</div>
                 </div>
     <div id='map'></div>
-    
+
 </body>
-<script src="js/mapSetup.js"></script>
-<script src="js/htmlgeoloc.js"></script>
+<script src="{% static 'js/mapSetup.js' %}"></script>
+<script src="{% static 'js/htmlgeoloc.js' %}"></script>
 
 <script>
 

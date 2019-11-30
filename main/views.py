@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
@@ -8,7 +7,6 @@ from urllib.parse import urlencode
 # from kerbspaceHack.process import squareFinder
 
 # Create your views here.
-print
 
 def main(request):
     if request.method == "GET":
@@ -16,14 +14,13 @@ def main(request):
 
     elif request.method == "POST":
         # do back end here
-
         pass
 
-def destination(request):
+def map(request):
     if request.method == "GET":
-        return render(request, 'main/index.html')
+        return render(request, 'main/map.html')
 
     elif request.method == "POST":
-        return
+        return render(request, 'main/map.html')
 
 # print(squareFinder("51.519781, -0.129711", 100))

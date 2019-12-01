@@ -1,8 +1,10 @@
 var mouseCoords;
+var mousePointCoords;
 let map;
 
 function addNewLocation(coords) {
   let geojson = {
+    id: "places",
     type: 'FeatureCollection',
     features: [{
       type: 'Feature',
@@ -16,6 +18,7 @@ function addNewLocation(coords) {
       }
     }]
   };
+
   geojson.features.forEach(function(marker) {
     console.log("Added");
     // create a HTML element for each feature
@@ -90,6 +93,31 @@ function getRoute(end, start = [-0.0785536, 51.518663]) {
     // add turn instructions here at the end
   };
   req.send();
+}
+
+function checkMouseCollision(id) {
+  let cc = map.getContainer();
+  let elements = cc.getElementsByClassName('marker');
+  let mousePos = mousePointCoords;
+  console.log(elements.length);
+  for(let i = 0; i < elements.length; i++)
+  {
+    let elementPos = [elements[i].getBoundingClientRect().x, elements[i].getBoundingClientRect().y];
+    console.log(elementPos);
+    let elementRect = {
+      top: parseInt(elementPos[1] - 40),
+      bottom: parseInt(elementPos[1] + 40),
+      left: parseInt(elementPos[0] - 40),
+      right: parseInt(elementPos[0] + 40)
+    };
+    if(
+      mousePos.x >= elementRect.left && mousePos.x <= elementRect.right
+      && mousePos.y + 100 >= elementRect.top && mousePos.y + 100 <= elementRect.bottom
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function setupMap(location) {
@@ -176,6 +204,23 @@ function setupMap(location) {
               'circle-color': '#ff00ff'
             }
           });
+
+          /*
+        fetch(
+          "http://localhost:8000/apicall/getDisabled",
+          {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+              lng: -0.08346151464363061,
+              lat: 51.525662072723975 
+            })
+          }
+        )
+        */
 
           fetch(
             // 51.5535663,-0.1887717,51.5589623,-0.1788357

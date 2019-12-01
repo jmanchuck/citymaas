@@ -4,7 +4,7 @@
 
 {% block title %} Map {% endblock %}
 {% block head %}
-    
+
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,11 +19,13 @@
 {% endblock %}
 
 <script>
-  /*
+
 console.log("script loaded");
 var currentLocation;
 var map;
+
 function loaded() {
+    /*
     fetch(
           "http://127.0.0.1:8000/apicall/",
           {
@@ -43,6 +45,7 @@ function loaded() {
             return true;
         }
     );
+    */
     var locationPromise = getLocation();
     locationPromise
       .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})
@@ -54,10 +57,9 @@ function mainLoop() {
     }, 100);
 }
 window.onload = loaded();
-*/
+
 </script>
 
 {% block content %}
 <div id='map'></div>
 {% endblock %}
-

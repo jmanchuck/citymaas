@@ -24,7 +24,7 @@ function addNewLocation(coords) {
     // create a HTML element for each feature
     var el = document.createElement('div');
     el.className = 'marker';
-  
+
     // make a marker for each feature and add to the map
     new mapboxgl.Marker(el)
       .setLngLat(marker.geometry.coordinates)
@@ -36,7 +36,7 @@ function addNewLocation(coords) {
       .setHTML(marker.properties.description)
       .addTo(map);
   });
-  
+
 }
 
 function addNewPinOnMap(coords, elementClassName) {
@@ -57,14 +57,14 @@ function addNewPinOnMap(coords, elementClassName) {
     // create a HTML element for each feature
     var el = document.createElement('div');
     el.className = elementClassName;
-  
+
     // make a marker for each feature and add to the map
     new mapboxgl.Marker(el)
       .setLngLat(marker.geometry.coordinates)
       //.setHTML(marker.properties.description)
       .addTo(map);
   });
-  
+
 }
 
 // create a function to make a directions request
@@ -149,7 +149,7 @@ function checkMouseCollision(id) {
 }
 
 function setupMap(location) {
-      
+
       mapboxgl.accessToken =
           "pk.eyJ1IjoidHNxdWlyZTUiLCJhIjoiY2pvanRudmRpMDB0aTNrbnk3NXpyc205ayJ9.VebVhb0D-yXiqv8ZVMCI0Q";
         location = location.coords
@@ -160,9 +160,57 @@ function setupMap(location) {
           center: new mapboxgl.LngLat(location.longitude, location.latitude),
           zoom: 12
         });
-        
+        fetch(
+          "http://127.0.0.1:8000/apicall/",
+          {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+              lat: 51.51520420713295,
+              lng: -0.12958518467630434
+            })
+          }
+        )
+        .then(response => response.json())
+        .then(
+        function(response) {
+            response = JSON.parse(response);
+            console.log(response);
+
+            for(let i = 0; i < response.length; i++)
+            {
+            let geojson = {
+              type: 'FeatureCollection',
+              features: [{
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: new mapboxgl.LngLat(response[i].location[1], response[i].location[0])
+                },
+                properties: {
+                  title: 'Mapbox',
+                  description: 'Disabled parking location'
+                }
+              }]
+            };
+            geojson.features.forEach(function(marker) {
+                console.log("added");
+            // create a HTML element for each feature
+              var el = document.createElement('div');
+              el.className = 'start';
+              // make a marker for each feature and add to the map
+              new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map);
+            });
+          }
+        }
+        );
         map.on("load", function() {
-          
+
           var start = [location.longitude, location.latitude];
           getRoute(end = start);
           destination = [-0.14333, 51.53858];
@@ -193,7 +241,7 @@ function setupMap(location) {
           // });
 
 
-          
+
           /*
         fetch(
           "http://localhost:8000/apicall/getDisabled",
@@ -205,7 +253,7 @@ function setupMap(location) {
             method: "POST",
             body: JSON.stringify({
               lng: -0.08346151464363061,
-              lat: 51.525662072723975 
+              lat: 51.525662072723975
             })
           }
         )
@@ -271,14 +319,14 @@ function setupMap(location) {
         // map.on('click', 'places', function (e) {
         //   var coordinates = e.features[0].geometry.coordinates.slice();
         //   var description = e.features[0].properties.description;
-           
+
         //   // Ensure that if the map is zoomed out such that multiple
         //   // copies of the feature are visible, the popup appears
         //   // over the copy being pointed to.
         //   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         //   coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         //   }
-           
+
         //   new mapboxgl.Popup()
         //   .setLngLat(coordinates)
         //   .setHTML(description)
@@ -308,7 +356,7 @@ function setupMap(location) {
           // create a HTML element for each feature
           var el = document.createElement('div');
           el.className = 'start';
-        
+
           // make a marker for each feature and add to the map
           new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)

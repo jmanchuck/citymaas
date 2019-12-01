@@ -21,6 +21,9 @@ def map(request):
         return render(request, 'main/map.html')
 
     elif request.method == "POST":
+        # do some back end here
+        search_string = request.POST['DESTINATION']
+        print(search_string)
         return render(request, 'main/map.html')
 
 def about(request):

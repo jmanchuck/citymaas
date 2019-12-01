@@ -4,22 +4,22 @@
 
 {% block title %} Map {% endblock %}
 {% block head %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
-{% endblock %}
-
-{% block content %}
-<div onload="loaded()" id='map'></div>
+    
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
 {% endblock %}
 
 {% block scripts %}
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
 <script src="{% static 'js/mapSetup.js' %}"></script>
 <script src="{% static 'js/htmlgeoloc.js' %}"></script>
+{% endblock %}
 
 <script>
+  /*
 console.log("script loaded");
 var currentLocation;
 var map;
@@ -54,5 +54,10 @@ function mainLoop() {
     }, 100);
 }
 window.onload = loaded();
+*/
 </script>
+
+{% block content %}
+<div id='map'></div>
 {% endblock %}
+

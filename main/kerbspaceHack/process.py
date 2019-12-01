@@ -75,9 +75,8 @@ def kerbCenter(coordList):
 # bedford square
 location = [51.519781, -0.129711]
 # in m
-radius = 100
+radius = 1000
 day = datetime.datetime.today().weekday()
-time = '1000'
 
 accepted_parking = []
 kerbLoc = []
@@ -127,9 +126,6 @@ for i in range(0, len(api_response.features)):
                         accepted_parking.append(kerb)
                         kerbLoc.append(kerbCenter(coord))
                         disability.append(True)
-
-    if accepted:
-        pass
 
 
 dist = []

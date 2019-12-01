@@ -126,15 +126,15 @@ def getCurb(location, radius):
     jsonList = [{'distance': dist, 'location': loc, 'disabilitySpace': dis, 'kerbSize': size}
                 for dist, loc, dis, size in zip(distSort, kerbLocSort, disabilitySort, kerbSizeSort)]
 
-    with open('output.json', 'w') as fout:
-        json.dump(jsonList, fout)
+    return json.dumps(jsonList)
 
     # pprint(kerbLoc)
     # pprint(accepted_parkingSort)
 
 
-# bedford square
-location = [51.519781, -0.129711]
-# in m
-radius = 1000
-getCurb(location, radius)
+if __name__ == "__main__":
+    # bedford square
+    location = [51.519781, -0.129711]
+    # in m
+    radius = 1000
+    getCurb(location, radius)

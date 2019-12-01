@@ -24,6 +24,25 @@ console.log("script loaded");
 var currentLocation;
 var map;
 function loaded() {
+    fetch(
+          "http://127.0.0.1:8000/apicall/",
+          {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+              lat: 51.51520420713295,
+              lng: -0.12958518467630434
+            })
+          }
+      ).then(
+        function(e) {
+            console.log(e);
+            return true;
+        }
+    );
     var locationPromise = getLocation();
     locationPromise
       .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})

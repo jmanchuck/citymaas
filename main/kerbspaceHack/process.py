@@ -38,15 +38,11 @@ def kerbSize(coordList):
     distances = []
     kerbspaces = 0
     for i in range(len(coordList) - 1):
-
         loc1 = coordList[i][::-1]
         loc2 = coordList[i+1][::-1]
-
         distances.append(distanceFinder(loc1, loc2))
-
     for distance in distances:
         kerbspaces += distance / 5
-
     return int(kerbspaces)
 
 

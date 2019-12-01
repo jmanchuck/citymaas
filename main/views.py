@@ -48,6 +48,7 @@ def apicall(request):
         locDict = ast.literal_eval(request.body.decode('utf-8'))
         lat = locDict["lat"]
         lng = locDict["lng"]
+        print(request.body)
         jsonOut = JsonResponse(getCurb([lat, lng], 1000), safe=False)
 
         print(jsonOut)

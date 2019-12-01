@@ -12,28 +12,6 @@ import datetime
 # create an instance of the API class
 api_instance = swagger_client.FeaturesControllerApi()
 ocp_apim_subscription_key = 'c105fb930d5b43b09d8da802326651e9'  # str |
-# str | viewport - a bounding box specified by two coordinates. First coordinate is bottom left second is top right. For example 51.31159579347505,-0.43013610839850003,51.73880216751415,0.25513610839837497 (optional)
-viewport = '51.514784, -0.133652, 51.530104, -0.117755'
-
-# bedford square
-location = [51.519781, -0.129711]
-# in m
-radius = 100
-day = datetime.datetime.today().weekday()
-time = '1000'
-
-accepted_parking = []
-kerbLoc = []
-disability = []
-daysDict = {
-    0: 'mo',
-    1: 'tu',
-    2: 'we',
-    3: 'th',
-    4: 'fri',
-    5: 'sa',
-    6: 'su'
-}
 
 
 def squareFinder(loc, radius):
@@ -93,6 +71,29 @@ def kerbCenter(coordList):
         return result[::-1]
 
 
+# viewport = '51.514784, -0.133652, 51.530104, -0.117755'
+# bedford square
+location = [51.519781, -0.129711]
+# in m
+radius = 100
+day = datetime.datetime.today().weekday()
+time = '1000'
+
+accepted_parking = []
+kerbLoc = []
+disability = []
+daysDict = {
+    0: 'mo',
+    1: 'tu',
+    2: 'we',
+    3: 'th',
+    4: 'fri',
+    5: 'sa',
+    6: 'su'
+}
+
+viewport = squareFinder(location, radius)
+
 try:
     api_response = api_instance.get_features_by_viewport_using_get(
         ocp_apim_subscription_key, viewport=viewport)
@@ -105,31 +106,32 @@ for i in range(0, len(api_response.features)):
     regulations = kerb.properties['regulations']
     coord = kerb.geometry.coordinates
 
+    accepted = False
+    disabilityBool = False
     for j in range(0, len(regulations)):
-        avaliable = False
         timeSpans = regulations[j]['timeSpans'][0]
         daysOfWeek = timeSpans['daysOfWeek']['days']
         for dayString in daysOfWeek:
             if dayString == daysDict[day]:
-                print(dayString)
-        # WILL HAVE DUPLICATES
-        if regulations[j]['rule']['payment'] and regulations[j]['rule']['activity'] == 'parking':
-            if j == 0:
-                accepted_parking.append(kerb)
-                kerbLoc.append(kerbCenter(coord))
-                disability.append(False)
-        try:
-            classes = regulations[j]['userClasses'][0]['classes'][0]
-        except KeyError:
-            pass
-        if classes[0:2] == 'Di':
-            if j == 0:
-                accepted_parking.append(kerb)
-                kerbLoc.append(kerbCenter(coord))
-                disability.append(True)
+                if regulations[j]['rule']['payment'] and regulations[j]['rule']['activity'] == 'parking':
+                    if j == 0:
+                        accepted_parking.append(kerb)
+                        kerbLoc.append(kerbCenter(coord))
+                        disability.append(False)
+                try:
+                    classes = regulations[j]['userClasses'][0]['classes'][0]
+                except KeyError:
+                    pass
+                if classes[0:2] == 'Di':
+                    if j == 0:
+                        accepted_parking.append(kerb)
+                        kerbLoc.append(kerbCenter(coord))
+                        disability.append(True)
+
+    if accepted:
+        pass
 
 
-# pprint(accepted_parking)
 dist = []
 for i in range(0, len(kerbLoc)):
     dist.append(distanceFinder(location, kerbLoc[i]))

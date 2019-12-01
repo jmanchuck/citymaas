@@ -166,6 +166,8 @@ function setupMap(location) {
           var start = [location.longitude, location.latitude];
           getRoute(end = start);
           destination = [-0.14333, 51.53858];
+          park = [-0.14343, 51.53808]
+          addNewPinOnMap(park, 'park');
           getRoute(end = destination, start = start);
           addNewPinOnMap(destination, 'destination');
           // map.addLayer({
@@ -235,7 +237,7 @@ function setupMap(location) {
                   "line-cap": "round"
                 },
                 paint: {
-                  "line-color": "#139DCD",
+                  "line-color": "#ff9DCD",
                   "line-width": 2
                 }
               });

@@ -22,6 +22,15 @@ button {
   background-color: teal;
 }
 
+a { color:#810da1 !important;
+text-decoration:none;
+}
+
+a:hover {
+color:#000000;
+text-decoration : none;
+}
+
 #map {
     position:absolute;
     top:100px;

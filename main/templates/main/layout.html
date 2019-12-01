@@ -26,7 +26,8 @@
           <a href="{% url 'main' %}"><img src="{% static 'images/mapability.png' %}" alt="logo"></a>
         </div>
         <div class="col-sm-4">
-          <form class="form-inline right">
+          <form class="form-inline right" action="{% url 'map' %}" method="POST">
+            {% csrf_token %}
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>

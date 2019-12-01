@@ -6,27 +6,41 @@
 <meta charset='utf-8' />
 <title>{% block title %} {% endblock %}</title>
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 {% block head %}
 {% endblock %}
 </head>
 
-<body>
-<div id="top"></div>
-<div id="top-menu">
-    <div class="top-menu-item"><a href="{% url 'about' %}">about</a></div>
+<body onload="getLocation((loc) => setupMap(loc))">
+  <nav class="navbar navbar-light fixed-top bg-light top-nav">
+    <div class="container=fluid">
+      <div class="row">
+        <div class="col-sm-4">
+          <a class="navbar-brand" href="{% url 'main' %}">Home</a>
+          <a class="navbar-brand" href="{% url 'map' %}">Map</a>
+          <a class="navbar-brand" href="{% url 'about' %}">About</a>
+          <a class="navbar-brand" href="{% url 'contact' %}">Contact</a>
+        </div>
+        <div class="col-sm-4">
+          <a href="{% url 'main' %}"><img src="{% static 'images/mapability.png' %}" alt="logo"></a>
+        </div>
+        <div class="col-sm-4">
+          <form class="form-inline right">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
 
-    <div class="top-menu-item"><a href="{% url 'map' %}">map</a></div>
 
-    <div class="top-menu-item"><a href="{% url 'contact' %}">contact</a></div>
-</div>
+</nav>
 
 {% block content %}
-
 {% endblock %}
-</body>
-
-</html>
 
 {% block scripts %}
 {% endblock %}
+</body>
+</html>

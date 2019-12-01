@@ -1,15 +1,8 @@
 function getLocation(callback) {
-    var promise = new Promise(function(resolve, reject) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position){
-                    resolve([position.coords.latitude, position.coords.longitude])
-                }
-            );
-        } else {
-          reject("Unknown");
-        }
-    });
-
-    return promise;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition( callback );
+    }
+    else {
+        callback({coords:{latitude: 51.518656299999996, longitude: -0.0784656}});
+    }
 }

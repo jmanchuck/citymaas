@@ -85,3 +85,30 @@ button {
     border-radius: 50%;
     cursor: pointer;
 }
+
+.start {
+  background-image: url('../car@2x.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.destination {
+  background-image: url('../Group751@2x.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.park {
+  background-image: url('../Group750@2x.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}

@@ -39,6 +39,34 @@ function addNewLocation(coords) {
   
 }
 
+function addNewPinOnMap(coords, elementClassName) {
+  let geojson = {
+    id: elementClassName,
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: new mapboxgl.LngLat(coords[0], coords[1])
+      }
+    }]
+  };
+
+  geojson.features.forEach(function(marker) {
+    console.log("Added");
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+    el.className = elementClassName;
+  
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat(marker.geometry.coordinates)
+      //.setHTML(marker.properties.description)
+      .addTo(map);
+  });
+  
+}
+
 // create a function to make a directions request
 function getRoute(end, start = [-0.0785536, 51.518663]) {
   // make a directions request using cycling profile
@@ -130,81 +158,42 @@ function setupMap(location) {
           style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
           //center: [-0.1833427, 51.555543], // starting position [lng, lat]
           center: new mapboxgl.LngLat(location.longitude, location.latitude),
-          zoom: 11
+          zoom: 12
         });
         
-        var geojson = {
-          type: 'FeatureCollection',
-          features: [{
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: new mapboxgl.LngLat(location.longitude, location.latitude)
-            },
-            properties: {
-              title: 'Mapbox',
-              description: 'Your Location'
-            }
-          }]
-        };
-        
-
         map.on("load", function() {
           
           var start = [location.longitude, location.latitude];
           getRoute(end = start);
+          destination = [-0.14333, 51.53858];
+          getRoute(end = destination, start = start);
+          addNewPinOnMap(destination, 'destination');
+          // map.addLayer({
+          //   id: 'point2',
+          //   type: 'circle',
+          //   source: {
+          //     type: 'geojson',
+          //     data: {
+          //       type: 'FeatureCollection',
+          //       features: [{
+          //         type: 'Feature',
+          //         properties: {},
+          //         geometry: {
+          //           type: 'Point',
+          //           coordinates: distination
+          //         }
+          //       }
+          //       ]
+          //     }
+          //   },
+          //   paint: {
+          //     'circle-radius': 10,
+          //     'circle-color': '#ff00ff'
+          //   }
+          // });
 
-          // Add starting point to the map
-          map.addLayer({
-            id: 'point',
-            type: 'circle',
-            source: {
-              type: 'geojson',
-              data: {
-                type: 'FeatureCollection',
-                features: [{
-                  type: 'Feature',
-                  properties: {},
-                  geometry: {
-                    type: 'Point',
-                    coordinates: start
-                  }
-                }
-                ]
-              }
-            },
-            paint: {
-              'circle-radius': 10,
-              'circle-color': '#3887be'
-            }
-          });
+
           
-          distination = [-0.14333, 51.53858];
-          getRoute(end = distination, start = start);
-          map.addLayer({
-            id: 'point2',
-            type: 'circle',
-            source: {
-              type: 'geojson',
-              data: {
-                type: 'FeatureCollection',
-                features: [{
-                  type: 'Feature',
-                  properties: {},
-                  geometry: {
-                    type: 'Point',
-                    coordinates: distination
-                  }
-                }
-                ]
-              }
-            },
-            paint: {
-              'circle-radius': 10,
-              'circle-color': '#ff00ff'
-            }
-          });
-
           /*
         fetch(
           "http://localhost:8000/apicall/getDisabled",
@@ -252,6 +241,21 @@ function setupMap(location) {
               });
             });
         });
+
+        var geojson = {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: new mapboxgl.LngLat(location.longitude, location.latitude)
+            },
+            properties: {
+              title: 'Mapbox',
+              description: 'Your Location'
+            }
+          }]
+        };
 
         map.on('load', () => {
           map.addLayer( {
@@ -303,7 +307,7 @@ function setupMap(location) {
 
           // create a HTML element for each feature
           var el = document.createElement('div');
-          el.className = 'marker';
+          el.className = 'start';
         
           // make a marker for each feature and add to the map
           new mapboxgl.Marker(el)

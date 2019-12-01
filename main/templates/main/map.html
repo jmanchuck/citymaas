@@ -4,43 +4,19 @@
 
 {% block title %} Map {% endblock %}
 {% block head %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
-{% endblock %}
-
-{% block content %}
-<div onload="loaded()" id='map'></div>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet'/>
 {% endblock %}
 
 {% block scripts %}
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
 <script src="{% static 'js/mapSetup.js' %}"></script>
 <script src="{% static 'js/htmlgeoloc.js' %}"></script>
-
-<script>
-console.log("script loaded");
-var currentLocation;
-var map;
-
-
-function loaded() {
-    var locationPromise = getLocation();
-    console.log("hello world");
-    locationPromise
-      .then(function(loc) { console.log(loc); currentLocation = loc; map = setupMap(loc); mainLoop();})
-      .catch(function(err) { console.log(err); });
-}
-
-function mainLoop() {
-    var interval = setInterval(() => {
-        //map.setZoom(10);
-    }, 100);
-}
-
-window.onload = loaded();
-
-
-</script>
 {% endblock %}
+
+{% block content %}
+<div id='map'></div>
+{% endblock %}
+

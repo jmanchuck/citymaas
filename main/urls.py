@@ -9,3 +9,5 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('apicall/', views.apicall, name='apicall')
 ]
+
+print("hello world")

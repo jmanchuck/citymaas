@@ -4,6 +4,12 @@ html, body {
     margin: 0;
 }
 
+img {
+height:50%;
+width: 50%;
+  align: top;
+}
+
 * {
     font-family: 'Gothic A1', sans-serif;
 }
@@ -12,10 +18,14 @@ body {
     background-color: #F8F8FF;
 }
 
-#map { 
-    position:absolute; 
-    top:102px;
-    bottom:0; 
+button {
+  background-color: teal;
+}
+
+#map {
+    position:absolute;
+    top:100px;
+    bottom:0;
     width:100%;
 }
 
@@ -35,6 +45,17 @@ body {
     line-height: 30px;
 }
 
+.right {
+  float: right;
+  width: 300px;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+}
+
 .top-menu-item {
     display: inline-block;
     font-weight: bold;
@@ -47,6 +68,15 @@ body {
     text-transform: uppercase;
 }
 
+.top-nav {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .marker {
     background-image: url('../marker.png');
     background-size: cover;
@@ -55,7 +85,3 @@ body {
     border-radius: 50%;
     cursor: pointer;
 }
-  
-
-
-

@@ -41,15 +41,8 @@ def kerbSize(coordList):
 
         loc1 = coordList[i][::-1]
         loc2 = coordList[i+1][::-1]
-        for j in range(2):
-            loc1[j] = str(loc1[j])
-            loc2[j] = str(loc2[j])
 
-        print(loc1, loc2)
-        loc1 = ','.join(loc1)
-        loc2 = ','.join(loc2)
         distances.append(distanceFinder(loc1, loc2))
-        print(distanceFinder(loc1, loc2))
 
     for distance in distances:
         kerbspaces += distance / 5
@@ -71,76 +64,77 @@ def kerbCenter(coordList):
         return result[::-1]
 
 
-# viewport = '51.514784, -0.133652, 51.530104, -0.117755'
+def getCurb(location, radius):
+
+    day = datetime.datetime.today().weekday()
+
+    accepted_parking = []
+    kerbLoc = []
+    disability = []
+    kerbSizeList = []
+    daysDict = {
+        0: 'mo',
+        1: 'tu',
+        2: 'we',
+        3: 'th',
+        4: 'fri',
+        5: 'sa',
+        6: 'su'
+    }
+
+    viewport = squareFinder(location, radius)
+
+    try:
+        api_response = api_instance.get_features_by_viewport_using_get(
+            ocp_apim_subscription_key, viewport=viewport)
+    except ApiException as e:
+        print("Exception when calling FeaturesControllerApi->get_features_by_viewport_using_get: %s\n" % e)
+
+    for i in range(0, len(api_response.features)):
+        kerb = api_response.features[i]
+        regulations = kerb.properties['regulations']
+        coord = kerb.geometry.coordinates
+
+        for j in range(0, len(regulations)):
+            timeSpans = regulations[j]['timeSpans'][0]
+            daysOfWeek = timeSpans['daysOfWeek']['days']
+            for dayString in daysOfWeek:
+                if dayString == daysDict[day]:
+                    if regulations[j]['rule']['payment'] and regulations[j]['rule']['activity'] == 'parking':
+                        if j == 0:
+                            accepted_parking.append(kerb)
+                            kerbLoc.append(kerbCenter(coord))
+                            disability.append(False)
+                            kerbSizeList.append(kerbSize(coord))
+                    try:
+                        classes = regulations[j]['userClasses'][0]['classes'][0]
+                    except KeyError:
+                        pass
+                    if classes[0:2] == 'Di':
+                        if j == 0:
+                            accepted_parking.append(kerb)
+                            kerbLoc.append(kerbCenter(coord))
+                            disability.append(True)
+                            kerbSizeList.append(kerbSize(coord))
+
+    dist = []
+    for i in range(0, len(kerbLoc)):
+        dist.append(distanceFinder(location, kerbLoc[i]))
+    zipped = zip(dist, kerbLoc, disability, kerbSizeList)
+    distSort, kerbLocSort, disabilitySort, kerbSizeSort = zip(*sorted(zipped))
+
+    jsonList = [{'distance': dist, 'location': loc, 'disabilitySpace': dis, 'kerbSize': size}
+                for dist, loc, dis, size in zip(distSort, kerbLocSort, disabilitySort, kerbSizeSort)]
+
+    with open('output.json', 'w') as fout:
+        json.dump(jsonList, fout)
+
+    # pprint(kerbLoc)
+    # pprint(accepted_parkingSort)
+
+
 # bedford square
 location = [51.519781, -0.129711]
 # in m
 radius = 1000
-day = datetime.datetime.today().weekday()
-
-accepted_parking = []
-kerbLoc = []
-disability = []
-daysDict = {
-    0: 'mo',
-    1: 'tu',
-    2: 'we',
-    3: 'th',
-    4: 'fri',
-    5: 'sa',
-    6: 'su'
-}
-
-viewport = squareFinder(location, radius)
-
-try:
-    api_response = api_instance.get_features_by_viewport_using_get(
-        ocp_apim_subscription_key, viewport=viewport)
-except ApiException as e:
-    print("Exception when calling FeaturesControllerApi->get_features_by_viewport_using_get: %s\n" % e)
-
-
-for i in range(0, len(api_response.features)):
-    kerb = api_response.features[i]
-    regulations = kerb.properties['regulations']
-    coord = kerb.geometry.coordinates
-
-    accepted = False
-    disabilityBool = False
-    for j in range(0, len(regulations)):
-        timeSpans = regulations[j]['timeSpans'][0]
-        daysOfWeek = timeSpans['daysOfWeek']['days']
-        for dayString in daysOfWeek:
-            if dayString == daysDict[day]:
-                if regulations[j]['rule']['payment'] and regulations[j]['rule']['activity'] == 'parking':
-                    if j == 0:
-                        accepted_parking.append(kerb)
-                        kerbLoc.append(kerbCenter(coord))
-                        disability.append(False)
-                try:
-                    classes = regulations[j]['userClasses'][0]['classes'][0]
-                except KeyError:
-                    pass
-                if classes[0:2] == 'Di':
-                    if j == 0:
-                        accepted_parking.append(kerb)
-                        kerbLoc.append(kerbCenter(coord))
-                        disability.append(True)
-
-
-dist = []
-for i in range(0, len(kerbLoc)):
-    dist.append(distanceFinder(location, kerbLoc[i]))
-zipped = zip(dist, kerbLoc, disability)
-distSort, kerbLocSort, disabilitySort = zip(*sorted(zipped))
-
-
-jsonList = [{'distance': dist, 'location': loc, 'disabilitySpace': dis}
-            for dist, loc, dis in zip(distSort, kerbLocSort, disabilitySort)]
-
-with open('output.json', 'w') as fout:
-    json.dump(jsonList, fout)
-
-
-# pprint(kerbLoc)
-# pprint(accepted_parkingSort)
+getCurb(location, radius)

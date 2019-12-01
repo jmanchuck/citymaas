@@ -45,6 +45,10 @@ button {
     line-height: 30px;
 }
 
+.navbar {
+  margin-top: 10px;
+}
+
 .right {
   float: right;
   width: 300px;
@@ -56,25 +60,12 @@ button {
   top: 50%;
 }
 
-.top-menu-item {
-    display: inline-block;
-    font-weight: bold;
-    font-size: 18px;
-    width: max-content;
-    margin-right: 20px;
-    margin-left: 20px;
-    height: 36px;
-    line-height: 30px;
-    text-transform: uppercase;
-}
-
-.top-nav {
-  margin-top: 20px;
-  text-align: center;
-}
-
 .text-center {
   text-align: center;
+}
+
+.purple {
+  color: #810da1 !important;
 }
 
 .marker {

@@ -36,14 +36,15 @@ function addNewLocation(coords) {
 }
 
 function setupMap(location) {
-mapboxgl.accessToken =
+      
+      mapboxgl.accessToken =
           "pk.eyJ1IjoidHNxdWlyZTUiLCJhIjoiY2pvanRudmRpMDB0aTNrbnk3NXpyc205ayJ9.VebVhb0D-yXiqv8ZVMCI0Q";
-        
+        location = location.coords
         var map = new mapboxgl.Map({
           container: "map", // container id
           style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
           //center: [-0.1833427, 51.555543], // starting position [lng, lat]
-          center: new mapboxgl.LngLat(location[1], location[0]),
+          center: new mapboxgl.LngLat(location.longitude, location.latitude),
           zoom: 16
         });
         
@@ -53,7 +54,7 @@ mapboxgl.accessToken =
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: new mapboxgl.LngLat(location[1], location[0])
+              coordinates: new mapboxgl.LngLat(location.longitude, location.latitude)
             },
             properties: {
               title: 'Mapbox',
@@ -144,7 +145,7 @@ mapboxgl.accessToken =
         });
 
         return map;
-    }
+}
 
 function setMapCenter(center) {
     map.center = [center];

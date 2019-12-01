@@ -56,7 +56,8 @@ app.intent('Address Intent', (conv, {address}) => {
 
 app.intent('Transportation Intent', (conv, {transportation}) => {
     conv.ask(`ok, searching a routing ${transportation} routing.`);
-    conv.ask(`Which one is your top priority? Safer, faster or closest`);
+    conv.ask(`Which one is your top priority? Safer, Faster or Closest path.`);
+    conv.ask(new Suggestions(['Safer', 'Faster', 'Closest']));
 });
 
 app.intent('Priority Intent', (conv, {priority}) => {
@@ -66,9 +67,16 @@ app.intent('Priority Intent', (conv, {priority}) => {
       text: `Click to Continue`,
       buttons: new Button({
         title: 'Click',
-        url: 'https://assistant.google.com/',
+        url: 'http://example.com/customer-service',
       }),
     }));
+    // conv.ask(new LinkOutSuggestion({
+    //     name: 'Suggestion Link',
+    //     openUrlAction: {
+    //         url: 'http://example.com/customer-service',
+    //     },
+    // }));
+    
 });
 
 
@@ -77,6 +85,7 @@ app.intent('Request Permission Intent', (conv) => {
   	const context = `To plan your journey`;
 	const permission = ['DEVICE_PRECISE_LOCATION']; // Or DEVICE_COARSE_LOCATION, DEVICE_PRECISE_LOCATION
   	conv.ask(new Permission({context: context, permissions: permission}));
+    conv.ask(new Suggestions(['OK', 'NO']));
 });
 
 app.intent('Get Permission Intent', (conv, params, confirmationGranted) => {
